@@ -30,12 +30,12 @@ export default class Game extends Component {
         loja: loja,
       });
     }
-    console.log(this.state.loja);
   }
 
   rinisLojen() {
     this.setState({
       loja: Array(9).fill(null),
+      rradha: true,
     });
   }
 
