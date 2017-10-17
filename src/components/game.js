@@ -12,9 +12,12 @@ export default class Game extends Component {
     };
   }
   onClick(i) {
-   const loja = this.state.loja.slice();
-   loja[i] = 'X';
-   this.setState({loja: loja});
+    const loja = this.state.loja.slice();
+    if(this.fituesi(this.state.loja) || loja[i]){
+      return;
+    }
+    loja[i] = 'X';
+    this.setState({loja: loja});
 
     if(this.state.rradha) {
       loja[i] = 'X';
@@ -38,8 +41,38 @@ export default class Game extends Component {
       rradha: true,
     });
   }
+  fituesi(loja) {
+    const fitore = [
+      [0,1,2],
+      [3,4,5],
+      [6,7,8],
+      [0,3,6],
+      [1,4,7],
+      [2,5,8],
+      [0,4,8],
+      [2,4,6]
+    ];
+    for(let j=0;j<fitore.length;j++){
+      const [a,b,c] = fitore[j];
+      if(loja[a] == loja[b] && loja[a] == loja[c]){
+        if(this.state.rradha && loja[a] != null){
+        return "O";
+        }
+        else if(loja[a] != null){
+          return "X";
+        }
+      }
+    }
+    return null;
+  }
+
 
   render() {
+    const winner = this.fituesi(this.state.loja);
+    let status;
+    if(winner){
+      status = "Fituesi eshte : " + winner;
+    }
     return (
       <div className="game">
         <div className="game-board">
@@ -51,7 +84,7 @@ export default class Game extends Component {
               Restart
             </button>
           </div>
-          <ol>{/* TODO */}</ol>
+          <div>{status}</div>
         </div>
       </div>
     );
